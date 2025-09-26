@@ -6,6 +6,7 @@ A Flutter mobile application prototype for a travel-oriented alarm which I did f
 - Started as a simple onboarding + demo app showing videos/gifs.
 - Evolved to include a Home screen and an Alarm management screen with local notification support.
 - Gradually improved for responsive layout (designed from a 360x800 Figma spec) and dynamic positioning.
+- CHECK WIKI FOR SCREENSHOTS
 
 ## Core functionalities implemented
 - Onboarding flow with responsive layout and background gradient.
