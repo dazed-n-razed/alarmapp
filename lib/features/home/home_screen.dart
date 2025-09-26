@@ -32,16 +32,18 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
 
   // Helper method to display the result in a modal/pop-up window
-  void _showResultDialog(
+  // CHANGE: Now returns Future<bool?> to allow the caller to await the user's confirmation.
+  Future<bool?> _showResultDialog(
     BuildContext context,
     String title,
     String content, {
-    VoidCallback? onOkPressed,
+    // We keep onOkPressed, but if null, we pop(true)
+    VoidCallback? onOkPressed, 
   }) {
     const Color accentColor = Color(0xFF5200FF);
     const Color darkBackgroundColor = Color(0xFF0B0024);
 
-    showDialog(
+    return showDialog<bool>(
       context: context,
       barrierDismissible: false, // Prevent closing by tapping outside
       builder: (BuildContext context) {
@@ -78,7 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               onPressed: onOkPressed ??
                   () {
-                    Navigator.of(context).pop();
+                    // When onOkPressed is null, close the dialog and return true
+                    Navigator.of(context).pop(true);
                   },
             ),
           ],
@@ -95,10 +98,15 @@ class _HomeScreenState extends State<HomeScreen> {
       _isLoading = true;
     });
 
+    // We do NOT need to await this dialog since it's immediately replaced.
     _showResultDialog(
       context,
       "Processing...",
       "Searching for your current location...",
+      // NOTE: Passing a dummy function to onOkPressed here ensures it closes itself without returning a value
+      onOkPressed: () {
+        Navigator.of(context).pop();
+      }
     );
 
     try {
@@ -109,30 +117,27 @@ class _HomeScreenState extends State<HomeScreen> {
       const String mockCountry = "United States";
 
       // 2. Close the 'Processing...' dialog
-      Navigator.of(context, rootNavigator: true).pop();
+      // Use rootNavigator to ensure the busy dialog is closed regardless of context.
+      Navigator.of(context, rootNavigator: true).pop(); 
 
-      // 3. Define the navigation callback
-      final VoidCallback navigateToAlarm = () {
-        // Close the success dialog
-        Navigator.of(context).pop();
-        // Perform the navigation to the HomeAlarmScreen, replacing the current route
-        // This handles navigation after "Use Current Location" confirmation.
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomeAlarmScreen()),
-        );
-      };
-
-      // 4. Show the success dialog, which includes the navigation action in the 'OK' button
-      _showResultDialog(
+      // 3. Show the success dialog and AWAIT its dismissal.
+      // This ensures the current widget's context remains valid until the user confirms the dialog.
+      final bool? confirmed = await _showResultDialog(
         context,
         "Success!",
         "Default Location Set:\nCity: $mockCity, Country: $mockCountry",
-        onOkPressed: navigateToAlarm,
+        onOkPressed: null, // Let the dialog handle its own close via pop(true)
       );
+      
+      // 4. If the user pressed OK and the widget is still mounted, navigate.
+      // Since we awaited the pop, the context is safe for navigation now.
+      if (confirmed == true) {
+        _navigateToHomeAlarm('$mockCity, $mockCountry');
+      }
+      
     } catch (e) {
       print('Location fetch error: $e');
-      // Close the 'Processing...' dialog and show the error
+      // Close the 'Processing...' dialog (if it was still open) and show the error
       Navigator.of(context, rootNavigator: true).pop();
       _showResultDialog(
         context,
@@ -147,11 +152,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // Helper method to navigate to the HomeAlarmScreen
-  void _navigateToHomeAlarm() {
-    // This handles navigation when the "Home" button is pressed.
+  void _navigateToHomeAlarm([String initialLocation = 'San Francisco, United States']) {
+    // ESSENTIAL: Check if the widget is still mounted before attempting navigation.
+    if (!mounted) return;
+
+    // This handles navigation when the "Home" button is pressed 
+    // AND after location success confirmation (now called from an awaited Future).
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => const HomeAlarmScreen()),
+      MaterialPageRoute(
+        builder: (context) => HomeAlarmScreen(
+          initialLocation: initialLocation,
+          locationFetched: true,
+        ),
+      ),
     );
   }
 
@@ -273,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   // Button 2: Home (Navigates directly to the HomeAlarmScreen)
                   OnboardingButton(
                     text: "Home",
-                    onPressed: _navigateToHomeAlarm, // Updated to navigate
+                    onPressed: _navigateToHomeAlarm, 
                   ),
                 ],
               ),
