@@ -1,0 +1,25 @@
+lib/
+├── alarm/
+├── constants/
+│   ├── colors.dart
+│   └── text_styles.dart
+├── features/
+│   ├── home/
+│   │   └── home_screen.dart
+│   └── onboarding/
+│       ├── onboarding_screen.dart
+│       └── helpers/
+├── widgets/
+│   ├── app_text.dart
+│   ├── onboarding_button.dart
+│   ├── onboarding_indicator.dart
+│   ├── onboarding_gif.dart
+│   └── onboarding_video.dart
+├── main.dart
+assets/
+├── gifs/
+├── images/
+└── videos/
+    ├── video1.mp4
+    ├── video2.mp4
+    └── video3.mp4

@@ -23,8 +23,11 @@ flutter:
 
   assets:
     - assets/videos/video1.mp4
+    - assets/videos/video2.mp4
+    - assets/videos/video3.mp4
     - assets/gifs/morning.gif
     - assets/gifs/walk.gif
+    - assets/images/image1.png
 
   fonts:
     - family: Poppins

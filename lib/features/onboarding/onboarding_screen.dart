@@ -20,21 +20,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<Map<String, String>> onboardingData = [
     {
-      "gif": "assets/gifs/walk.gif",
+      "video": "assets/videos/video1.mp4",
       "title": "Discover the world, one journey at a time.",
       "desc":
           "From hidden gems to iconic destinations, we make travel simple, inspiring, and unforgettable. Start your next adventure today."
     },
     {
-      "gif": "assets/gifs/morning.gif",
+      "video": "assets/videos/video2.mp4",
+      "title": "See the beauty, one journey at a time.",
+      "desc": "Travel made simple and exciting—discover places you’ll love and moments you’ll never forget."
+    },
+    {
+       "video": "assets/videos/video3.mp4",
       "title": "Explore new horizons, one step at a time.",
       "desc":
           "Every trip holds a story waiting to be lived. Let us guide you to experiences that inspire, connect, and last a lifetime."
-    },
-    {
-      "video": "assets/videos/video1.mp4",
-      "title": "See the beauty, one journey at a time.",
-      "desc": "Travel made simple and exciting—discover places you’ll love and moments you’ll never forget."
+
     },
   ];
 
