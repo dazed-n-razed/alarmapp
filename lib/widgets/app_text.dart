@@ -7,15 +7,17 @@ class AppText extends StatelessWidget {
   final String text;
   final AppTextType type;
   final TextAlign textAlign;
-  // Define the new optional named parameter customSize
   final double? customSize; 
+  // ADDED: The optional color parameter
+  final Color? color; 
 
   const AppText({
     Key? key,
     required this.text,
     this.type = AppTextType.paragraph,
     this.textAlign = TextAlign.start,
-    this.customSize, // Add customSize to the constructor
+    this.customSize, 
+    this.color, // ADDED: color to the constructor
   }) : super(key: key);
 
   @override
@@ -34,6 +36,11 @@ class AppText extends StatelessWidget {
     // 2. Override the font size if customSize is provided
     if (customSize != null) {
       style = style.copyWith(fontSize: customSize);
+    }
+    
+    // 3. ADDED: Override the color if provided
+    if (color != null) {
+      style = style.copyWith(color: color);
     }
 
     return Text(
