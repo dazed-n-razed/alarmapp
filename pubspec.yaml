@@ -23,6 +23,16 @@ flutter:
 
   assets:
     - assets/videos/video1.mp4
-    - assets/videos/Colorful Minimalist Trip Moment Reels Video (1) (1).mp4
     - assets/gifs/morning.gif
-  
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700

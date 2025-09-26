@@ -1,4 +1,3 @@
-// lib/features/onboarding/onboarding_screen.dart
 import 'package:flutter/material.dart';
 import '../../widgets/app_text.dart';
 import '../../widgets/onboarding_button.dart';
@@ -27,15 +26,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           "From hidden gems to iconic destinations, we make travel simple, inspiring, and unforgettable. Start your next adventure today."
     },
     {
-      "video": "assets/videos/video2.mp4",
-      "title": "Plan smarter, travel better.",
+      "gif": "assets/gifs/morning.gif",
+      "title": "Explore new horizons, one step at a time.",
       "desc":
-          "Organize your trips with ease and focus on what matters: creating memories."
+          "Every trip holds a story waiting to be lived. Let us guide you to experiences that inspire, connect, and last a lifetime."
     },
     {
       "gif": "assets/gifs/morning.gif",
-      "title": "Adventure awaits you.",
-      "desc": "Join millions of travelers who explore the world effortlessly with us."
+      "title": "See the beauty, one journey at a time.",
+      "desc": "Travel made simple and exciting—discover places you’ll love and moments you’ll never forget."
     },
   ];
 
@@ -59,7 +58,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   // Ratio constant for video height based on a total of 800.0 (429.0 / 800.0).
-  static const double _videoHeightRatio = 0.53625;
+  static const double _videoHeightRatio = 0.55;
   // Ratio constant for button top position (664px / 800px).
   static const double _buttonTopRatio = 0.83;
   // Button container height (76px).
@@ -117,8 +116,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final double indicatorTopPosition = buttonTopPosition - _indicatorHeight - 10; 
 
     return Scaffold(
-      // FIX: Ensure Scaffold background is transparent if needed, 
-      // but applying the gradient to the body Container is correct.
       backgroundColor: Colors.transparent, 
       body: Container(
         // The background gradient is applied to the entire screen.
@@ -127,9 +124,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              Color(0xFF082257), 
-              Color(0xFF0B0024), 
-              
+              Color(0xFF082257), // Lighter color at bottom
+              Color(0xFF0B0024), // Darker color at top
             ],
           ),
         ),
@@ -143,16 +139,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               top: videoFrameHeight, 
               left: 0,
               right: 0,
-              // FIX: Set the bottom position based on the indicator's top position 
-              // minus a safe margin (e.g., 24px bottom padding + a small buffer).
-              // We'll constrain it to stop just above the indicator's top padding.
-              bottom: screenHeight - indicatorTopPosition + 12, // +12px to resolve the overflow
+              // Constrain the bottom based on the indicator's top position + a small buffer
+              bottom: screenHeight - indicatorTopPosition + 12, 
               child: Padding(
                 padding: const EdgeInsets.only(
                   left: 16,
                   right: 16,
                   top: 24, // Padding below video
-                  // No bottom padding here, as the Positioned bottom constraint handles the space above the indicator
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -169,18 +162,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         },
                         itemBuilder: (context, index) {
                           final item = onboardingData[index];
-                          // Text widgets and Columns are transparent by default.
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppText(
                                 text: item["title"]!,
                                 type: AppTextType.heading,
+                                // >>> Custom Size: Making the heading larger (38.0) <<<
+                                customSize: 33.0, 
                               ),
                               const SizedBox(height: 16),
                               AppText(
                                 text: item["desc"]!,
                                 type: AppTextType.paragraph,
+                                // >>> Custom Size: Making the paragraph slightly smaller (15.0) <<<
+                                customSize: 16.0,
                               ),
                             ],
                           );
@@ -227,12 +223,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 4.0), 
+                  // COMMENT: Added 16.0 top padding to create vertical space from the SafeArea edge.
+                  padding: const EdgeInsets.only(top: 16.0, right: 4.0), 
                   child: TextButton(
                     onPressed: _skip,
-                    child: const Text(
+                    child: Text(
                       "Skip",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Oxygen', // Set font family
+                        fontWeight: FontWeight.w500, // Set to Bold
+                        fontSize: 18, // Set font size
+                        // line-height: 100% and text-align: center are handled by Flutter defaults/widget structure
+                      ),
                     ),
                   ),
                 ),

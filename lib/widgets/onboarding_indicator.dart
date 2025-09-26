@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../constants/colors.dart';
 
 class OnboardingIndicator extends StatelessWidget {
@@ -17,12 +18,14 @@ class OnboardingIndicator extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(itemCount, (index) {
         return Container(
-          width: 8,
-          height: 8,
+          width: 9,
+          height: 9,
           margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: currentIndex == index ? AppColors.primary : Colors.white54,
+            color: currentIndex == index
+                ? const Color(0xFF5200FF)      // active
+                : const Color(0x33BA99FF),    // inactive (20% opacity)
           ),
         );
       }),

@@ -15,13 +15,19 @@ class OnboardingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine the desired total vertical space for the button and its surrounding margin.
+    // Original total container height was 76px.
+    const double increasedButtonHeight = 64.0; // Increased button height from 56px to 64px
+
     return Container(
-      // Fixed height of 76px for the button container.
-      height: 76, 
+      // The container's height is now adjusted to fit the new button size + padding.
+      height: increasedButtonHeight + 20.0, // e.g., 64 + 10 (top padding) + 10 (bottom padding) = 84.0
+      // We are keeping the same vertical padding structure.
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
         width: double.infinity,
-        height: 56,
+        // FIX: Set the explicit height of the button using the increased value.
+        height: increasedButtonHeight, 
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
@@ -33,13 +39,15 @@ class OnboardingButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             elevation: 0,
             animationDuration: const Duration(milliseconds: 160),
+            // OPTIONAL: If you want to be extremely explicit, uncomment the line below.
+            // minimumSize: const Size.fromHeight(increasedButtonHeight),
           ),
           child: Text(
             text,
             style: const TextStyle(
               fontFamily: 'Display',
               fontWeight: FontWeight.w500,
-              fontSize: 16,
+              fontSize: 19,
             ),
           ),
         ),
