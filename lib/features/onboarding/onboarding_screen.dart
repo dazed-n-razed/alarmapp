@@ -20,7 +20,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<Map<String, String>> onboardingData = [
     {
-      "video": "assets/videos/video1.mp4",
+      "gif": "assets/gifs/walk.gif",
       "title": "Discover the world, one journey at a time.",
       "desc":
           "From hidden gems to iconic destinations, we make travel simple, inspiring, and unforgettable. Start your next adventure today."
@@ -32,7 +32,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           "Every trip holds a story waiting to be lived. Let us guide you to experiences that inspire, connect, and last a lifetime."
     },
     {
-      "gif": "assets/gifs/morning.gif",
+      "video": "assets/videos/video1.mp4",
       "title": "See the beauty, one journey at a time.",
       "desc": "Travel made simple and exciting—discover places you’ll love and moments you’ll never forget."
     },
@@ -169,14 +169,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 text: item["title"]!,
                                 type: AppTextType.heading,
                                 // >>> Custom Size: Making the heading larger (38.0) <<<
-                                customSize: 33.0, 
+                                customSize: 32.0, 
                               ),
                               const SizedBox(height: 16),
                               AppText(
                                 text: item["desc"]!,
                                 type: AppTextType.paragraph,
                                 // >>> Custom Size: Making the paragraph slightly smaller (15.0) <<<
-                                customSize: 16.0,
+                                customSize: 16.5,
                               ),
                             ],
                           );
