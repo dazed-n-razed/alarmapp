@@ -20,6 +20,29 @@ A Flutter mobile application prototype for a travel-oriented alarm which I did f
 	- In-app Timer fallback scheduler is implemented to trigger notifications while the app runs.
 - Android build: core library desugaring enabled (required by the notification plugin).
 
+## Figma-Based Ratio Scaling for Dynamic UI
+
+The UI is implemented to match a Figma reference screen of 360×800 px. Rather than using absolute pixel values, the layout computes each element's position and size as a ratio of the reference screen. This keeps the visual composition consistent across different devices.
+
+### Key dynamic ratios
+
+- Media container height (Frame 3 top: 453px): the media (video/GIF) area occupies approximately 55% of the screen height. This is derived from the original media height (~429px) relative to the design height:
+
+	$\dfrac{429}{800} \approx 0.536 \;\text{(≈ 0.55)}$
+
+- Page indicator top (Frame 4 top: 632px): position the indicator at 79% of screen height:
+
+	$\dfrac{632}{800} = 0.79$
+
+- Action button top (Frame 5 top: 664px): position the main action button at 83% of screen height:
+
+	$\dfrac{664}{800} = 0.83$
+
+Practical notes:
+
+- Compute positions at runtime using `MediaQuery.of(context).size` multiplied by the ratios above (for example `screenHeight * 0.79`).
+- Use `Stack` + `Positioned` (or `Align`) to place frames by computed offsets so elements remain relative to each other when screen size changes.
+
 ## Files of interest
 - `lib/features/onboarding/onboarding_screen.dart` — Onboarding UI and responsive layout.
 - `lib/features/home/home_screen.dart` — Entry Home screen with location fetch flow.
@@ -27,6 +50,26 @@ A Flutter mobile application prototype for a travel-oriented alarm which I did f
 - `lib/widgets/onboarding_button.dart` — Custom button used across onboarding/home screens.
 - `pubspec.yaml` — Asset definitions and dependencies (e.g., `flutter_local_notifications`, `intl`).
 - `android/app/build.gradle.kts` — Enabled core library desugaring and dependency for desugaring.
+
+## Tools & packages used
+
+Platform & tools
+- Flutter SDK (Dart) — project uses Flutter and requires the Flutter toolchain installed.
+- Android SDK / Gradle — Android build uses Java 11 compatibility and core library desugaring.
+- Kotlin (Gradle Android plugin used in Android build scripts).
+
+Key Dart / Flutter packages (see `pubspec.yaml` for full list and versions):
+- `flutter_local_notifications` — local notifications integration (used to show alarm notifications).
+- `video_player` (^2.5.1) — playback of onboarding video assets.
+- `intl` (^0.20.2) — date/time formatting for display.
+- `cupertino_icons` (^1.0.8) — iOS-style icons.
+
+Build helper added
+- `com.android.tools:desugar_jdk_libs:2.1.4` — added to `android/app/build.gradle.kts` to enable core library desugaring required by some plugins.
+
+Optional / recommended (not currently added)
+- `timezone` + `flutter_native_timezone` — if you want OS-level, timezone-aware `zonedSchedule` notifications that fire when the app is killed. This repo currently implements an in-app Timer fallback for notifications while the app runs.
+
 
 ## How to run (Windows / PowerShell)
 1. Install Flutter and ensure `flutter` is available on your PATH. See https://flutter.dev/docs/get-started/install.
